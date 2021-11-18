@@ -13,8 +13,12 @@ class PRGTStatusDevice extends Device {
 
         // Create an API instance with the saved settings
         // TODO obtain values from settings/store
+        const settings = this.getSettings();
 
-        this.api = new PRTG(server, user, passhash);
+        console.log("Current settings in device");
+        console.dir(settings);
+
+        this.api = new PRTG(settings.server, settings.username, settings.passhash);
 
         this.api.getUpSensors()
         .then(sensors => {
@@ -53,6 +57,7 @@ class PRGTStatusDevice extends Device {
      */
     async onSettings({ oldSettings, newSettings, changedKeys }) {
         this.log('PRTGDevice settings where changed');
+        // TODO re-setup the api object when settings have changed!
     }
 
     /**

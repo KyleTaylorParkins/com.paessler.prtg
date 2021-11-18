@@ -44,7 +44,42 @@
           "id": "login_prtg"
         }
       ],
-      "id": "prtg-status"
+      "id": "prtg-status",
+      "settings": [
+        {
+          "id": "server",
+          "type": "text",
+          "label": {
+            "en": "Server"
+          },
+          "value": "PRTG.local",
+          "hint": {
+            "en": "Hostname where PRTG is running at."
+          }
+        },
+        {
+          "id": "username",
+          "type": "text",
+          "label": {
+            "en": "Username"
+          },
+          "value": "prtgadmin",
+          "hint": {
+            "en": "Username for the PRTG which has at least read access."
+          }
+        },
+        {
+          "id": "passhash",
+          "type": "password",
+          "label": {
+            "en": "Passhash"
+          },
+          "value": "1234567890",
+          "hint": {
+            "en": "Passhash for the configured PRTG user."
+          }
+        }
+      ]
     }
   ],
   "capabilities": {
