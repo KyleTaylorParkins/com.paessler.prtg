@@ -1,0 +1,21 @@
+{
+  "name": {
+    "en": "PRTG Status"
+  },
+  "class": "other",
+  "capabilities": [
+    "sensors_down",
+    "sensors_up",
+    "sensors_warning"
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "login_prtg"
+    }
+  ]
+}

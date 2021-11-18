@@ -1,0 +1,91 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.paessler.prtg",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "name": {
+    "en": "PRTG"
+  },
+  "description": {
+    "en": "Connect Homey to your PRTG instance and integrate your IT enviroment in Homey. Let Homey warn you when a device is down!"
+  },
+  "category": [
+    "tools"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Kaalus .",
+    "email": "homey@kaalus.nl"
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "PRTG Status"
+      },
+      "class": "other",
+      "capabilities": [
+        "sensors_down",
+        "sensors_up",
+        "sensors_warning"
+      ],
+      "images": {
+        "small": "/drivers/prtg-status/assets/images/small.png",
+        "large": "/drivers/prtg-status/assets/images/large.png",
+        "xlarge": "/drivers/prtg-status/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "login_prtg"
+        }
+      ],
+      "id": "prtg-status"
+    }
+  ],
+  "capabilities": {
+    "sensors_down": {
+      "type": "number",
+      "title": {
+        "en": "Down"
+      },
+      "desc": {
+        "en": "Sensors with status down."
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/prtg.svg"
+    },
+    "sensors_up": {
+      "type": "number",
+      "title": {
+        "en": "Up"
+      },
+      "desc": {
+        "en": "Sensors with status up."
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/prtg.svg"
+    },
+    "sensors_warning": {
+      "type": "number",
+      "title": {
+        "en": "Warning"
+      },
+      "desc": {
+        "en": "Sensors with status warning."
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/prtg.svg"
+    }
+  }
+}

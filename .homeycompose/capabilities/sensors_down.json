@@ -1,0 +1,13 @@
+{
+    "type": "number",
+    "title": {
+      "en": "Down"
+    },
+    "desc": {
+      "en": "Sensors with status down."
+    },
+    "uiComponent": "sensor",
+    "getable": true,
+    "setable": false,
+    "icon": "/assets/prtg.svg"
+  }

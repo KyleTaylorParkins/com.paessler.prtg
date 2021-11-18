@@ -1,0 +1,118 @@
+<style type="text/css">
+    .prtg-login-logo {
+        display: block;
+        position: relative;
+        width: 25vw; /* Keep this half of the login root width to keep it centered */
+        height: 15vw;
+        margin: 5vw auto;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain
+    }
+
+    .prtg-login-root {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        display: block;
+        position: relative;
+        width: 50vw;
+        height: 30vw;
+        margin: 10vw auto;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain
+    }
+
+    .prtg-login-row {
+        margin-bottom: 1em;
+        width: 30vw;
+    }
+
+    .prtg-login-text {
+        width: 30vw;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+
+<div class="prtg-login-logo">
+    <img src="prtg-logo.svg">
+</div>
+<div class="prtg-login-root">
+    <div class="prtg-login-row row">
+        <label class="prtg-login-label" data-i18n="pair.server"></label>
+        <input class="prtg-login-text" id="server" type="text" value="" placeholder="http://prtg.your.network:80">
+    </div>
+    <div class="prtg-login-row row">
+        <label class="prtg-login-label" data-i18n="pair.username"></label>
+        <input class="prtg-login-text" id="username" type="text" value="" placeholder="prtgadmin">
+    </div>
+    <div class="prtg-login-row row">
+        <label class="prtg-login-label" data-i18n="pair.passhash"></label>
+        <input class="prtg-login-text" id="passhash" type="text" value="" placeholder="1234567890">
+    </div>
+    <div class="prtg-login-row row">
+        <label class="prtg-login-label" data-i18n="pair.login"></label>
+        <button class="prtg-login-button" type="button" onclick="login()">Connect</button> 
+    </div>
+    
+</div>
+
+<script type="application/javascript">
+    function createUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    function login() {
+        console.log("Login clicked!")
+
+        const server    = document.getElementById("server").value;
+        const username  = document.getElementById("username").value;
+        const passhash  = document.getElementById("passhash").value;
+
+        if (!server || !username || !passhash) {
+            Homey.alert("Incomplete login data, please fill in all the fields.");
+        }
+
+        console.log(`Logging in to server: ${server}, username: ${username}, passhash: ${passhash}`);
+
+        Homey.emit("prtg-login", {
+            server,
+            username,
+            passhash
+        }).then(result => {
+            console.log(result);
+
+            if (result) {
+                Homey.createDevice({
+                    name: `PRTG ${server}`,
+                    data: {
+                        id: createUUID(),
+                    },
+                    store: {
+                        passhash,
+                    },
+                    settings: {
+                        server,
+                        username,
+                    },
+                })
+                .then(result => {
+                    Homey.done();
+                })
+                .catch(err => {
+                    Homey.alert(err);
+                });
+            } else {
+                Homey.alert("Couldn't connect to PRTG, please review the credentials.");
+            }
+        });
+    }
+  </script>
