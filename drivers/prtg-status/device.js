@@ -3,40 +3,60 @@
 const { Device } = require('homey');
 const PRTG = require('../../lib/PrtgApi');
 
-class PRGTStatusDevice extends Device {
-
+//let updaterLoop = null;
+class PRTGStatusDevice extends Device {
     /**
      * onInit is called when the device is initialized.
      */
     async onInit() {
         this.log('PRTG Status has been initialized');
 
-        // Create an API instance with the saved settings
-        // TODO obtain values from settings/store
         const settings = this.getSettings();
-
-        console.log("Current settings in device");
-        console.dir(settings);
 
         this.api = new PRTG(settings.server, settings.username, settings.passhash);
 
+        this.pushSensorsToDevice();
+        this.setUpdaterLoop(settings.refresh);
+    }
+
+    /**
+     * Function to push the sensor count from the PRTG API to the device's capabilities.
+     */
+    async pushSensorsToDevice() {
         this.api.getUpSensors()
         .then(sensors => {
-            console.log(`Device count with status up: ${Object.keys(sensors).length}`);
+            this.log(`Device count with status up: ${Object.keys(sensors).length}`);
             this.setCapabilityValue('sensors_up', Object.keys(sensors).length);
         });
 
         this.api.getDownSensors()
         .then(sensors => {
-            console.log(`Device count with status down: ${Object.keys(sensors).length}`);
+            // TODO trigger flow when devices are down
+            this.log(`Device count with status down: ${Object.keys(sensors).length}`);
             this.setCapabilityValue('sensors_down', Object.keys(sensors).length);
         });
 
         this.api.getWarningSensors()
         .then(sensors => {
-            console.log(`Device count with status warning: ${Object.keys(sensors).length}`);
+            // TODO trigger flow when devices have warnings
+            this.log(`Device count with status warning: ${Object.keys(sensors).length}`);
             this.setCapabilityValue('sensors_warning', Object.keys(sensors).length);
         });
+    }
+
+    /**
+     * Function to set the update interval.
+     * @param {Number} time interval time in minutes
+     */
+    setUpdaterLoop(time) {
+        const timer = time * 60 * 1000; // Time in minutes to miliseconds.
+
+        if (this.updaterLoop) clearInterval(this.updaterLoop);
+
+        this.updaterLoop = setInterval(() => {
+			this.log('Updating data from API');
+			this.pushSensorsToDevice();
+		}, timer);
     }
 
     /**
@@ -57,7 +77,24 @@ class PRGTStatusDevice extends Device {
      */
     async onSettings({ oldSettings, newSettings, changedKeys }) {
         this.log('PRTGDevice settings where changed');
-        // TODO re-setup the api object when settings have changed!
+
+        if (changedKeys.includes('refresh')) {
+            this.setUpdaterLoop(newSettings.refresh);
+        }
+
+        if (changedKeys.includes('server') ||
+            changedKeys.includes('username') ||
+            changedKeys.includes('passhash')
+        ) {
+            const testResult = await PRTG.testApi(newSettings.server, newSettings.username, newSettings.passhash);
+            if (testResult) {
+                this.api = null;
+                this.api = new PRTG(newSettings.server, newSettings.username, newSettings.passhash)
+                this.log("New PRTG info is correct");
+            } else {
+                throw new Error("Can't connect to PRTG, please check your settings!");
+            }
+        }
     }
 
     /**
@@ -74,8 +111,9 @@ class PRGTStatusDevice extends Device {
      */
     async onDeleted() {
         this.log('PRTGDevice has been deleted');
+        this.api = null;
     }
 
 }
 
-module.exports = PRGTStatusDevice;
+module.exports = PRTGStatusDevice;

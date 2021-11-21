@@ -96,13 +96,11 @@
                     data: {
                         id: createUUID(),
                     },
-                    store: {
-                        passhash,
-                    },
                     settings: {
                         server,
                         username,
                         passhash,
+                        refresh: 5,
                     },
                 })
                 .then(result => {
@@ -116,4 +114,4 @@
             }
         });
     }
-  </script>
+</script>
