@@ -1,0 +1,9 @@
+{
+    "id": "sensor_warning",
+    "title": {
+        "en": "A sensor has a warning"
+    },
+    "hint": {
+        "en": "Will trigger when at least a device has status warning."
+    }
+}

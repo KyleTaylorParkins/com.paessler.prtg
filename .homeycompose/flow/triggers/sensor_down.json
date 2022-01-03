@@ -1,0 +1,9 @@
+{
+    "id": "sensor_down",
+    "title": {
+        "en": "A sensor is down"
+    },
+    "hint": {
+        "en": "Will trigger when at least a device has status down."
+    }
+}

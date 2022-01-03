@@ -11,10 +11,15 @@ class PRTGStatusDevice extends Device {
     async onInit() {
         this.log('PRTG Status has been initialized');
 
+        // Get the device settings and construct an PRTG API
         const settings = this.getSettings();
-
         this.api = new PRTG(settings.server, settings.username, settings.passhash);
 
+        // Get all flow instances
+        this.sensorDownFlowTrigger = this.homey.flow.getTriggerCard('sensor_down');
+        this.sensorWarningFlowTrigger = this.homey.flow.getTriggerCard('sensor_warning');
+
+        // Obtain current sensor information through the API and set the updater loop.
         this.pushSensorsToDevice();
         this.setUpdaterLoop(settings.refresh);
     }
@@ -25,28 +30,38 @@ class PRTGStatusDevice extends Device {
     async pushSensorsToDevice() {
         this.api.getUpSensors()
         .then(sensors => {
-            this.log(`Device count with status up: ${Object.keys(sensors).length}`);
-            this.setCapabilityValue('measure_sensors_up', Object.keys(sensors).length);
+            const sensorCount = Object.keys(sensors).length;
+            this.log(`Device count with status up: ${sensorCount}`);
+            this.setCapabilityValue('measure_sensors_up', sensorCount);
         });
 
         this.api.getDownSensors()
         .then(sensors => {
-            // TODO trigger flow when devices are down
-            this.log(`Device count with status down: ${Object.keys(sensors).length}`);
-            this.setCapabilityValue('measure_sensors_down', Object.keys(sensors).length);
+            const sensorCount = Object.keys(sensors).length;
+            this.log(`Device count with status down: ${sensorCount}`);
+            this.setCapabilityValue('measure_sensors_down', sensorCount);
+
+            if (sensorCount > 0) {
+                this.sensorDownFlowTrigger.trigger();
+            }
         });
 
         this.api.getWarningSensors()
         .then(sensors => {
-            // TODO trigger flow when devices have warnings
-            this.log(`Device count with status warning: ${Object.keys(sensors).length}`);
-            this.setCapabilityValue('measure_sensors_warning', Object.keys(sensors).length);
+            const sensorCount = Object.keys(sensors).length;
+            this.log(`Device count with status warning: ${sensorCount}`);
+            this.setCapabilityValue('measure_sensors_warning', sensorCount);
+
+            if (sensorCount > 0) {
+                this.sensorDownFlowTrigger.trigger();
+            }
         });
 
         this.api.getUnusualSensors()
         .then(sensors => {
-            this.log(`Device count with status unusual: ${Object.keys(sensors).length}`);
-            this.setCapabilityValue('measure_sensors_unusual', Object.keys(sensors).length);
+            const sensorCount = Object.keys(sensors).length;
+            this.log(`Device count with status unusual: ${sensorCount}`);
+            this.setCapabilityValue('measure_sensors_unusual', sensorCount);
         });
     }
 
@@ -70,7 +85,7 @@ class PRTGStatusDevice extends Device {
      */
     async onAdded() {
         // TODO add the site name
-        this.log('PRTG Status has been added');
+        this.log('Device has been added');
     }
 
     /**
@@ -82,7 +97,7 @@ class PRTGStatusDevice extends Device {
      * @returns {Promise<string|void>} return a custom message that will be displayed
      */
     async onSettings({ oldSettings, newSettings, changedKeys }) {
-        this.log('PRTGDevice settings where changed');
+        this.log('Settings where changed');
 
         if (changedKeys.includes('refresh')) {
             this.setUpdaterLoop(newSettings.refresh);
@@ -109,14 +124,14 @@ class PRTGStatusDevice extends Device {
      * @param {string} name The new name
      */
     async onRenamed(name) {
-        this.log('PRTGDevice was renamed');
+        this.log('Renamed');
     }
 
     /**
      * onDeleted is called when the user deleted the device.
      */
     async onDeleted() {
-        this.log('PRTGDevice has been deleted');
+        this.log('Deleted');
         this.api = null;
     }
 

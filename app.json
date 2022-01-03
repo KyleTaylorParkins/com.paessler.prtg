@@ -23,6 +23,28 @@
     "name": "Kaalus .",
     "email": "homey@kaalus.nl"
   },
+  "flow": {
+    "triggers": [
+      {
+        "id": "sensor_down",
+        "title": {
+          "en": "A sensor is down"
+        },
+        "hint": {
+          "en": "Will trigger when at least a device has status down."
+        }
+      },
+      {
+        "id": "sensor_warning",
+        "title": {
+          "en": "A sensor has a warning"
+        },
+        "hint": {
+          "en": "Will trigger when at least a device has status warning."
+        }
+      }
+    ]
+  },
   "drivers": [
     {
       "name": {
