@@ -30,9 +30,10 @@
       },
       "class": "other",
       "capabilities": [
-        "sensors_down",
-        "sensors_up",
-        "sensors_warning"
+        "measure_sensors_down",
+        "measure_sensors_up",
+        "measure_sensors_warning",
+        "measure_sensors_unusual"
       ],
       "images": {
         "small": "/drivers/prtg-status/assets/images/small.png",
@@ -99,7 +100,7 @@
     }
   ],
   "capabilities": {
-    "sensors_down": {
+    "measure_sensors_down": {
       "type": "number",
       "title": {
         "en": "Down"
@@ -110,9 +111,28 @@
       "uiComponent": "sensor",
       "getable": true,
       "setable": false,
+      "units": {
+        "en": "Sensors"
+      },
       "icon": "/assets/prtg.svg"
     },
-    "sensors_up": {
+    "measure_sensors_unusual": {
+      "type": "number",
+      "title": {
+        "en": "Unusual"
+      },
+      "desc": {
+        "en": "Sensors with status unusual."
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "units": {
+        "en": "Sensors"
+      },
+      "icon": "/assets/prtg.svg"
+    },
+    "measure_sensors_up": {
       "type": "number",
       "title": {
         "en": "Up"
@@ -123,9 +143,12 @@
       "uiComponent": "sensor",
       "getable": true,
       "setable": false,
+      "units": {
+        "en": "Sensors"
+      },
       "icon": "/assets/prtg.svg"
     },
-    "sensors_warning": {
+    "measure_sensors_warning": {
       "type": "number",
       "title": {
         "en": "Warning"
@@ -136,6 +159,9 @@
       "uiComponent": "sensor",
       "getable": true,
       "setable": false,
+      "units": {
+        "en": "Sensors"
+      },
       "icon": "/assets/prtg.svg"
     }
   }

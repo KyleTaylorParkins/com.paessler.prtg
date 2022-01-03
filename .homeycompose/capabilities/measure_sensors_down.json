@@ -9,5 +9,8 @@
     "uiComponent": "sensor",
     "getable": true,
     "setable": false,
+    "units": { 
+      "en": "Sensors"
+    },
     "icon": "/assets/prtg.svg"
   }

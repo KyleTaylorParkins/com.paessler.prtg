@@ -26,21 +26,27 @@ class PRTGStatusDevice extends Device {
         this.api.getUpSensors()
         .then(sensors => {
             this.log(`Device count with status up: ${Object.keys(sensors).length}`);
-            this.setCapabilityValue('sensors_up', Object.keys(sensors).length);
+            this.setCapabilityValue('measure_sensors_up', Object.keys(sensors).length);
         });
 
         this.api.getDownSensors()
         .then(sensors => {
             // TODO trigger flow when devices are down
             this.log(`Device count with status down: ${Object.keys(sensors).length}`);
-            this.setCapabilityValue('sensors_down', Object.keys(sensors).length);
+            this.setCapabilityValue('measure_sensors_down', Object.keys(sensors).length);
         });
 
         this.api.getWarningSensors()
         .then(sensors => {
             // TODO trigger flow when devices have warnings
             this.log(`Device count with status warning: ${Object.keys(sensors).length}`);
-            this.setCapabilityValue('sensors_warning', Object.keys(sensors).length);
+            this.setCapabilityValue('measure_sensors_warning', Object.keys(sensors).length);
+        });
+
+        this.api.getUnusualSensors()
+        .then(sensors => {
+            this.log(`Device count with status unusual: ${Object.keys(sensors).length}`);
+            this.setCapabilityValue('measure_sensors_unusual', Object.keys(sensors).length);
         });
     }
 

@@ -4,9 +4,10 @@
   },
   "class": "other",
   "capabilities": [
-    "sensors_down",
-    "sensors_up",
-    "sensors_warning"
+    "measure_sensors_down",
+    "measure_sensors_up",
+    "measure_sensors_warning",
+    "measure_sensors_unusual"
   ],
   "images": {
     "small": "{{driverAssetsPath}}/images/small.png",
