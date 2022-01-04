@@ -15,10 +15,6 @@ class PRTGStatusDevice extends Device {
         const settings = this.getSettings();
         this.api = new PRTG(settings.server, settings.username, settings.passhash);
 
-        // Get all flow instances
-        this.sensorDownFlowTrigger = this.homey.flow.getTriggerCard('sensor_down');
-        this.sensorWarningFlowTrigger = this.homey.flow.getTriggerCard('sensor_warning');
-
         // Obtain current sensor information through the API and set the updater loop.
         this.pushSensorsToDevice();
         this.setUpdaterLoop(settings.refresh);
@@ -40,10 +36,6 @@ class PRTGStatusDevice extends Device {
             const sensorCount = Object.keys(sensors).length;
             this.log(`Device count with status down: ${sensorCount}`);
             this.setCapabilityValue('measure_sensors_down', sensorCount);
-
-            if (sensorCount > 0) {
-                this.sensorDownFlowTrigger.trigger();
-            }
         });
 
         this.api.getWarningSensors()
@@ -51,10 +43,6 @@ class PRTGStatusDevice extends Device {
             const sensorCount = Object.keys(sensors).length;
             this.log(`Device count with status warning: ${sensorCount}`);
             this.setCapabilityValue('measure_sensors_warning', sensorCount);
-
-            if (sensorCount > 0) {
-                this.sensorDownFlowTrigger.trigger();
-            }
         });
 
         this.api.getUnusualSensors()
