@@ -114,7 +114,7 @@
       "units": {
         "en": "Sensors"
       },
-      "icon": "/assets/prtg.svg"
+      "icon": "/assets/sensor-icons/down.svg"
     },
     "measure_sensors_unusual": {
       "type": "number",
@@ -130,7 +130,7 @@
       "units": {
         "en": "Sensors"
       },
-      "icon": "/assets/prtg.svg"
+      "icon": "/assets/sensor-icons/unusual.svg"
     },
     "measure_sensors_up": {
       "type": "number",
@@ -146,7 +146,7 @@
       "units": {
         "en": "Sensors"
       },
-      "icon": "/assets/prtg.svg"
+      "icon": "/assets/sensor-icons/up.svg"
     },
     "measure_sensors_warning": {
       "type": "number",
@@ -162,7 +162,7 @@
       "units": {
         "en": "Sensors"
       },
-      "icon": "/assets/prtg.svg"
+      "icon": "/assets/sensor-icons/warning.svg"
     }
   }
 }
