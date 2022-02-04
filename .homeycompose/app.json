@@ -2,17 +2,25 @@
   "id": "com.paessler.prtg",
   "version": "1.0.0",
   "compatibility": ">=5.0.0",
+  "platforms": ["local"],
   "sdk": 3,
   "name": {
     "en": "PRTG"
   },
-  "brandColor": "#050f34",
+  "brandColor": "#00aeef",
   "description": {
-    "en": "Connect Homey to your PRTG instance and integrate your IT enviroment in Homey. Let Homey warn you when a device is down!"
+    "en": "Monitor. Visualize. Relax. Stay ahead of IT infrastructure issues!"
   },
   "category": [
     "tools"
   ],
+  "tags": { 
+    "en": [
+      "IT",
+      "Monitoring",
+      "LAN"
+    ] 
+  },
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
@@ -20,7 +28,7 @@
     "xlarge": "/assets/images/xlarge.png"
   },
   "author": {
-    "name": "Kaalus .",
+    "name": "Kaalus",
     "email": "homey@kaalus.nl"
   }
 }
