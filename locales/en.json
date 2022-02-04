@@ -1,1 +1,13 @@
-{}
+{
+  "pair": {
+    "hint": "Enter the URL of your PRTG server, a valid username and the passhash of the user you want to login with.",
+    "server": "The hostname or IP address of the server that PRTG is running at.",
+    "username": "The username you want to login with.",
+    "passhash": "The passhash that belongs to the user you've selected.",
+    "error": {
+      "incomplete_login": "Incomplete login data, please fill in all the fields.",
+      "connection_failed": "Couldn't connect to PRTG, please review the credentials."
+    },
+    "login": "Press the login button to connect to the PRTG instance."
+  }
+}
