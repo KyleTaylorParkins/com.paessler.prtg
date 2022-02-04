@@ -22,8 +22,6 @@ class PRTGStatusDriver extends Driver {
             username = data.username;
             passhash = data.passhash;
 
-            console.dir(data);
-
             const version = await PRTG.testApi(server, username, passhash);
             console.log(`Result from version check: ${version}`);
             return version;

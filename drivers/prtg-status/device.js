@@ -98,10 +98,10 @@ class PRTGStatusDevice extends Device {
             const testResult = await PRTG.testApi(newSettings.server, newSettings.username, newSettings.passhash);
             if (testResult) {
                 this.api = null;
-                this.api = new PRTG(newSettings.server, newSettings.username, newSettings.passhash)
-                this.log("New PRTG info is correct");
+                this.api = new PRTG(newSettings.server, newSettings.username, newSettings.passhash);
             } else {
-                throw new Error("Can't connect to PRTG, please check your settings!");
+                //throw new Error("Can't connect to PRTG, please check your settings!");
+                throw new Error(this.homey.__('pair.error.connection_failed'));
             }
         }
     }
@@ -121,6 +121,8 @@ class PRTGStatusDevice extends Device {
     async onDeleted() {
         this.log('Deleted');
         this.api = null;
+
+        if (this.updaterLoop) clearInterval(this.updaterLoop);
     }
 
 }
