@@ -4,7 +4,7 @@
     .prtg-login-logo {
         display: flex;
         position: relative;
-        width: 25vw; /* Keep this half of the login root width to keep it centered */
+        width: 25vw;
         height: 15vw;
         margin: 5vw auto;
         background-position: center center;
@@ -36,6 +36,10 @@
         width: 80vw;
     }
 
+    .prtg-login-button {
+        width: 80vw;
+    }
+
     .hidden {
         display: none;
     }
@@ -47,7 +51,7 @@
 <div class="prtg-login-root">
     <div class="prtg-login-row row">
         <label class="prtg-login-label" data-i18n="pair.server"></label>
-        <input class="prtg-login-text" id="server" type="text" value="" placeholder="http://prtg.your.network:80">
+        <input class="prtg-login-text" id="server" type="text" value="" placeholder="prtg.your.network:80">
     </div>
     <div class="prtg-login-row row">
         <label class="prtg-login-label" data-i18n="pair.username"></label>
@@ -59,7 +63,7 @@
     </div>
     <div class="prtg-login-row row">
         <label class="prtg-login-label" data-i18n="pair.login"></label>
-        <button class="prtg-login-button" type="button" onclick="login()">Connect</button> 
+        <button class="prtg-login-button" type="button" onclick="login()">Login</button> 
     </div>
     
 </div>
@@ -75,22 +79,26 @@
     function login() {
         console.log("Login clicked!")
 
-        const server    = document.getElementById("server").value;
+        let url = document.getElementById("server").value;
+        if (url.startsWith('http://')) url = url.replace('http://', '');
+        if (url.startsWith('https://')) url = url.replace('https://', '');
+
+        const server    = url;
         const username  = document.getElementById("username").value;
         const passhash  = document.getElementById("passhash").value;
 
         if (!server || !username || !passhash) {
-            Homey.alert("Incomplete login data, please fill in all the fields.");
+            Homey.alert(Homey.__("pair.error.incomplete_login"));
+            return;
         }
 
-        console.log(`Logging in to server: ${server}, username: ${username}, passhash: ${passhash}`);
-
+        Homey.showLoadingOverlay();
         Homey.emit("prtg-login", {
             server,
             username,
             passhash
         }).then(result => {
-            console.log(result);
+            Homey.hideLoadingOverlay();
 
             if (result) {
                 Homey.createDevice({
@@ -112,7 +120,7 @@
                     Homey.alert(err);
                 });
             } else {
-                Homey.alert("Couldn't connect to PRTG, please review the credentials.");
+                Homey.alert(Homey.__("pair.error.connection_failed"));
             }
         });
     }
