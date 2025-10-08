@@ -5,7 +5,7 @@
   "platforms": ["local"],
   "sdk": 3,
   "name": {
-    "en": "PRTG"
+    "en": "PRTG Network Monitor"
   },
   "brandColor": "#00aeef",
   "description": {
