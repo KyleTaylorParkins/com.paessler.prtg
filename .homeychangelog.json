@@ -4,5 +4,8 @@
   },
   "1.0.1": {
     "en": "Small fixes. Added new assets to be in line with Paessler. Rebuild with current Homey SDK and updated dependencies."
+  },
+  "1.0.2": {
+    "en": "Fixed readme."
   }
 }
