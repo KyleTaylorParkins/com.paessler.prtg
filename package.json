@@ -1,12 +1,11 @@
 {
   "name": "com.paessler.prtg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "app.js",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "node-fetch": "^2.6.1",
-    "xml2js": "^0.4.23"
+    "node-fetch": "^2.7.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "id": "com.paessler.prtg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": ">=5.0.0",
   "platforms": ["local"],
   "sdk": 3,
